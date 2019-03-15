@@ -1,0 +1,23 @@
+5dfdb658:html-500-html
+  60707218:html-500-head
+    62b6540c:html-500-title
+  49e55c16:html-500-body
+    3e208bbc:html-500-h1 Hello World
+    375920be:html-500-p Lorem ipsum dolor sit
+
+    01887a84:bootstrap-430-card
+      08fb247e:html-500-img
+      0cbc2a18:bootstrap-430-card-body
+        25aa43fc:html-500-h5
+        1a6db744:html-500-p
+        2cfeb4f8:html-500-p
+
+---
+
+query Scaffold {
+  buildScaffold {
+    5dfdb658: part(uuid: '') {
+      60707218: part(uuid: '')
+    }
+  }
+}

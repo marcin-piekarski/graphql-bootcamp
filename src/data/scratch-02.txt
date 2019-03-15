@@ -1,0 +1,19 @@
+query {
+  aaa: parts(code: "html") {
+    code
+    bbb: parts(code: "head") {
+      code
+      ccc:parts(code: "title", content: "Hello World") {
+      	code
+        content
+    	}
+    }
+    ddd: parts(code: "body") {
+      code
+      fff: parts(code: "h1", content: "Hello World") {
+        code
+        content
+      }
+    }
+  }
+}

@@ -1,6 +1,9 @@
 import { GraphQLServer } from "graphql-yoga";
 import faker from "faker";
 
+import { templates, frameworks, libraries } from "./data";
+console.log({ templates, frameworks, libraries });
+
 // GraphQL yoga options
 const options = {
   port: 4000
@@ -18,58 +21,60 @@ const typeDefs = `
     email: String!
   }
 
-  type FrameworkParts {
-    id: ID!
-    name: String!
-  }
-
-  type Framework {
-    id: ID!
-    name: String!
-    version: String!
-    parts: [FrameworkParts]
+  type Part {
+    code: String
+    content(content: String): String
+    parts(code: String, content: String): [Part]
   }
 
   type Query {
     status: String!
     me: User!
-    framework: Framework
+    parts(code: String, content: String): [Part]
   }
 `;
 
 // Resolvers
-
-const parts = [
-  {
-    id: faker.random.number(),
-    name: "Layout"
-  },
-  {
-    id: faker.random.number(),
-    name: "Components"
-  },
-  {
-    id: faker.random.number(),
-    name: "Utilities"
-  }
-];
-
 const resolvers = {
   Query: {
-    status: () => "ok",
-    me: () => {
+    status() {
+      return "ok";
+    },
+    me() {
       return {
         id: faker.random.number(),
         name: faker.name.findName()
       };
     },
-    framework: () => {
-      return {
-        id: faker.random.number(),
-        name: "Bootstra",
-        version: "4.3.0",
-        parts: parts
-      };
+    parts(parent, args, context, info) {
+      console.log({ parent });
+      console.log({ args });
+
+      return [
+        {
+          code: args.code,
+          content: args.content
+        }
+      ];
+    }
+  },
+  Part: {
+    content(parent, args, context, info) {
+      console.log("Part", "content", { parent });
+      console.log("Part", "content", { args });
+
+      return args.content;
+    },
+    parts(parent, args, context, info) {
+      console.log({ parent });
+      console.log({ args });
+
+      return [
+        {
+          code: args.code,
+          content: args.content
+        }
+      ];
     }
   }
 };
